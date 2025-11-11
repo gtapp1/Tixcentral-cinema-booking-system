@@ -45,37 +45,6 @@ Quick start (Windows with XAMPP)
 - Open http://localhost/draft2
 - Register a user, then book tickets.
 
-macOS/Linux (Apache + PHP + MySQL)
-1) Install stack
-- macOS: Install Homebrew, then brew install httpd php mysql
-- Linux (Ubuntu/Debian): sudo apt install apache2 php php-mysqli mysql-server
-
-2) Place project files
-- Copy the folder to your web root:
-  - macOS (Homebrew): /opt/homebrew/var/www/draft2 or /usr/local/var/www/draft2
-  - Ubuntu/Debian: /var/www/html/draft2
-- Ensure the folder name is draft2.
-
-3) Set permissions (Linux)
-- sudo chown -R www-data:www-data /var/www/html/draft2
-- sudo find /var/www/html/draft2 -type d -exec chmod 755 {} \;
-- sudo find /var/www/html/draft2 -type f -exec chmod 644 {} \;
-
-4) Start services
-- MySQL: sudo service mysql start
-- Apache: sudo service apache2 start (or httpd start)
-
-5) Create database and seed data
-- Using phpMyAdmin, import schema.sql
-  or CLI:
-  mysql -u root -p < /var/www/html/draft2/schema.sql
-
-6) Configure DB credentials
-- Edit draft2/config.php with your MySQL user/password.
-
-7) Open the site
-- Visit http://localhost/draft2
-
 How to use
 - Register an account: Login -> Sign Up.
 - Browse Now Showing, pick a schedule, select seats on the seat map.
@@ -91,21 +60,15 @@ Customization
 - Styling: assets/css/styles.css (colors, sizes, effects).
 - Images: Replace files under assets/images as listed above.
 
-Common issues
-- 404 or broken links:
-  - Ensure the folder is exactly /draft2. If you rename the folder, update absolute paths “/draft2/” throughout PHP files.
-- Database connection failed:
-  - Check MySQL is running, credentials in config.php, and that schema.sql was imported.
-- Seat map not updating:
-  - Ensure Apache can reach http://localhost/draft2/api/booked_seats.php
-  - Confirm bookings table has CONFIRMED entries after payment.
-- Ports in use:
-  - Apache: change the Listen port in httpd.conf or free port 80.
-  - MySQL: ensure port 3306 is free.
+Sample screenshots of the TixCentral Cinema Booking System.
 
-Reset database
-- Re-import schema.sql using phpMyAdmin or:
-  mysql -u root -p < path/to/schema.sql
+<img width="1920" height="1817" alt="image" src="https://github.com/user-attachments/assets/a24df752-1f55-41af-90c0-61784dab0f04" />
+
+<img width="1920" height="2317" alt="image" src="https://github.com/user-attachments/assets/5480f0ac-a492-4c95-8cc1-a512d08c6b47" />
+
+<img width="1920" height="1122" alt="image" src="https://github.com/user-attachments/assets/86471dbc-07cc-47e4-8e40-6a5dda21bc4b" />
+
+
 
 Security note
 - Payments are simulated for demo purposes. Do not use for production.
