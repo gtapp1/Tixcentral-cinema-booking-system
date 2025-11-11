@@ -67,8 +67,3 @@ Sample screenshots of the TixCentral Cinema Booking System.
 <img width="1920" height="2317" alt="image" src="https://github.com/user-attachments/assets/5480f0ac-a492-4c95-8cc1-a512d08c6b47" />
 
 <img width="1920" height="1122" alt="image" src="https://github.com/user-attachments/assets/86471dbc-07cc-47e4-8e40-6a5dda21bc4b" />
-
-
-
-Security note
-- Payments are simulated for demo purposes. Do not use for production.
