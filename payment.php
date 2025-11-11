@@ -163,6 +163,7 @@ $total = (float)$sched['price'] * count($seat_ids);
                 <input type="password" name="card_cvv" class="form-control" placeholder="123">
               </div>
             </div>
+            <a class="btn btn-outline-light mt-3 me-2" href="/draft2/book.php?schedule_id=<?= (int)$schedule_id ?>">Cancel</a>
             <button class="btn btn-danger mt-3" type="submit">Pay <?=price_format($total)?></button>
           </form>
         </div>
