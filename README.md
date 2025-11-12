@@ -84,4 +84,3 @@ Featured hero: Set movies.featured=1 in the database to change the homepage hero
 Prices: schedules.price per showtime.
 Styling: assets/css/styles.css (colors, sizes, effects).
 Images: Replace files under assets/images as listed above.
-
