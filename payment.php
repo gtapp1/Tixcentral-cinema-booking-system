@@ -35,14 +35,27 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && post('action')==='pay') {
     $details_masked = 'MAYA ****' . substr($mobile, -4);
   } elseif ($method==='CARD') {
     $name = trim(post('card_name'));
-    $card = preg_replace('/\D+/','', post('card_number'));
-    $exp = preg_replace('/\s+/','', post('card_exp'));
-    $cvv = preg_replace('/\D+/','', post('card_cvv'));
-    if (strlen($name)<2 || strlen($card)<12 || !preg_match('/^\d{2}\/\d{2}$/',$exp) || strlen($cvv)<3) {
-      set_flash('error','Please enter valid card details.');
+    $cardRaw = post('card_number');
+    $cardDigits = preg_replace('/\D+/', '', $cardRaw);
+    $exp = strtoupper(trim(post('card_exp')));
+    $cvv = preg_replace('/\D+/', '', post('card_cvv'));
+    if (strlen($name) < 2) {
+      set_flash('error','Enter cardholder name.');
       redirect('/draft2/payment.php');
     }
-    $details_masked = $name . ' • **** **** **** ' . substr($card,-4) . ' • ' . $exp;
+    if (!preg_match('/^\d{13,19}$/', $cardDigits)) {
+      set_flash('error','Card number must be 13–19 digits.');
+      redirect('/draft2/payment.php');
+    }
+    if (!preg_match('/^(0[1-9]|1[0-2])\/\d{2}$/', $exp)) {
+      set_flash('error','Expiration must be MM/YY.');
+      redirect('/draft2/payment.php');
+    }
+    if (!preg_match('/^\d{3}$/', $cvv)) {
+      set_flash('error','CVV must be exactly 3 digits.');
+      redirect('/draft2/payment.php');
+    }
+    $details_masked = $name . ' • **** **** **** ' . substr($cardDigits, -4) . ' • ' . $exp;
   } else {
     set_flash('error','Select a payment method.');
     redirect('/draft2/payment.php');
@@ -130,7 +143,7 @@ $total = (float)$sched['price'] * count($seat_ids);
             <div id="pay-gcash" class="mt-2">
               <label class="form-label">Registered Mobile Number</label>
               <input type="tel" name="gcash_mobile" class="form-control" placeholder="09XXXXXXXXX">
-              <div class="form-text">A simulated verification will occur after submitting.</div>
+              <div class="form-text"></div>
             </div>
             <div class="form-check mt-3">
               <input class="form-check-input" type="radio" name="method" id="m-maya" value="MAYA">
@@ -139,7 +152,7 @@ $total = (float)$sched['price'] * count($seat_ids);
             <div id="pay-maya" class="mt-2" style="display:none;">
               <label class="form-label">Registered Mobile Number</label>
               <input type="tel" name="maya_mobile" class="form-control" placeholder="09XXXXXXXXX">
-              <div class="form-text">Simulated redirect and verification.</div>
+              <div class="form-text"></div>
             </div>
             <div class="form-check mt-3">
               <input class="form-check-input" type="radio" name="method" id="m-card" value="CARD">
@@ -148,19 +161,44 @@ $total = (float)$sched['price'] * count($seat_ids);
             <div id="pay-card" class="row g-3 mt-1" style="display:none;">
               <div class="col-md-6">
                 <label class="form-label">Cardholder Name</label>
-                <input type="text" name="card_name" class="form-control" placeholder="FULL NAME">
+                <input type="text" name="card_name" class="form-control" placeholder="FULL NAME" autocomplete="cc-name">
               </div>
               <div class="col-md-6">
                 <label class="form-label">Card Number</label>
-                <input type="text" name="card_number" class="form-control" placeholder="4111 1111 1111 1111">
+                <input type="text"
+                       name="card_number"
+                       class="form-control"
+                       placeholder="4111 1111 1111 1111 111"
+                       inputmode="numeric"
+                       autocomplete="cc-number"
+                       maxlength="23"
+                       pattern="[\d\s]{13,23}"
+                       oninput="this.value=this.value.replace(/[^\d]/g,'').slice(0,19).replace(/(\d{4})(?=\d)/g,'$1 ').trim();">
               </div>
               <div class="col-md-4">
                 <label class="form-label">Expiration (MM/YY)</label>
-                <input type="text" name="card_exp" class="form-control" placeholder="MM/YY">
+                <input type="text"
+                       name="card_exp"
+                       class="form-control"
+                       placeholder="MM/YY"
+                       inputmode="numeric"
+                       autocomplete="cc-exp"
+                       maxlength="5"
+                       pattern="(0[1-9]|1[0-2])\/\d{2}"
+                       oninput="let v=this.value.replace(/[^0-9]/g,''); if(v.length>4)v=v.slice(0,4); if(v.length>=3)v=v.slice(0,2)+'/'+v.slice(2); this.value=v;">
               </div>
               <div class="col-md-4">
                 <label class="form-label">CVV</label>
-                <input type="password" name="card_cvv" class="form-control" placeholder="123">
+                <input type="password"
+                       name="card_cvv"
+                       class="form-control"
+                       placeholder="•••"
+                       inputmode="numeric"
+                       autocomplete="off"
+                       maxlength="3"
+                       pattern="\d{3}"
+                       oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,3);"
+                       aria-label="Card CVV (hidden)">
               </div>
             </div>
             <a class="btn btn-outline-light mt-3 me-2" href="/draft2/book.php?schedule_id=<?= (int)$schedule_id ?>">Cancel</a>
