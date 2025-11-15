@@ -1,10 +1,12 @@
 <?php require_once __DIR__ . '/includes/header.php'; ?>
 <?php
 if ($_SERVER['REQUEST_METHOD']==='POST') {
-  $name = trim(post('name',''));
+  $first = trim(post('first_name',''));
+  $last  = trim(post('last_name',''));
+  $name  = trim($first . ' ' . $last);
   $email = strtolower(trim(post('email','')));
-  $pass = post('password','');
-  if (!$name || !$email || !$pass) { set_flash('error','All fields are required.'); redirect('/draft2/register.php'); }
+  $pass  = post('password','');
+  if (!$first || !$last || !$email || !$pass) { set_flash('error','All fields are required.'); redirect('/draft2/register.php'); }
   if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { set_flash('error','Invalid email.'); redirect('/draft2/register.php'); }
   $hash = password_hash($pass, PASSWORD_DEFAULT);
   try {
@@ -21,17 +23,23 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
 <div class="container py-5" style="max-width:520px;">
   <h1 class="tc-heading mb-3">Sign Up</h1>
   <form method="post">
-    <div class="mb-3">
-      <label class="form-label">Full Name</label>
-      <input type="text" class="form-control" name="name" required>
+    <div class="row">
+      <div class="mb-3 col-md-6">
+        <label class="form-label">First Name</label>
+        <input type="text" class="form-control" name="first_name" required autocomplete="given-name">
+      </div>
+      <div class="mb-3 col-md-6">
+        <label class="form-label">Surname</label>
+        <input type="text" class="form-control" name="last_name" required autocomplete="family-name">
+      </div>
     </div>
     <div class="mb-3">
       <label class="form-label">Email</label>
-      <input type="email" class="form-control" name="email" required>
+      <input type="email" class="form-control" name="email" required autocomplete="email">
     </div>
     <div class="mb-3">
       <label class="form-label">Password</label>
-      <input type="password" class="form-control" name="password" required minlength="6">
+      <input type="password" class="form-control" name="password" required minlength="6" autocomplete="new-password">
     </div>
     <button class="btn btn-danger w-100" type="submit">Create Account</button>
   </form>

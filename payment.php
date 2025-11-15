@@ -136,28 +136,29 @@ $total = (float)$sched['price'] * count($seat_ids);
           <h5 class="card-title">Choose Payment Method</h5>
           <form method="post" action="/draft2/payment.php">
             <input type="hidden" name="action" value="pay">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="method" id="m-gcash" value="GCASH" checked>
-              <label class="form-check-label" for="m-gcash">GCash</label>
+
+            <!-- Dropdown instead of radio buttons -->
+            <div class="mb-3">
+              <label class="form-label">Payment Method</label>
+              <select name="method" id="method-select" class="form-select">
+                <option value="GCASH">GCash</option>
+                <option value="MAYA">Maya</option>
+                <option value="CARD">Debit / Credit Card</option>
+              </select>
             </div>
+
             <div id="pay-gcash" class="mt-2">
               <label class="form-label">Registered Mobile Number</label>
               <input type="tel" name="gcash_mobile" class="form-control" placeholder="09XXXXXXXXX">
               <div class="form-text"></div>
             </div>
-            <div class="form-check mt-3">
-              <input class="form-check-input" type="radio" name="method" id="m-maya" value="MAYA">
-              <label class="form-check-label" for="m-maya">Maya</label>
-            </div>
+
             <div id="pay-maya" class="mt-2" style="display:none;">
               <label class="form-label">Registered Mobile Number</label>
               <input type="tel" name="maya_mobile" class="form-control" placeholder="09XXXXXXXXX">
               <div class="form-text"></div>
             </div>
-            <div class="form-check mt-3">
-              <input class="form-check-input" type="radio" name="method" id="m-card" value="CARD">
-              <label class="form-check-label" for="m-card">Debit / Credit Card</label>
-            </div>
+
             <div id="pay-card" class="row g-3 mt-1" style="display:none;">
               <div class="col-md-6">
                 <label class="form-label">Cardholder Name</label>
@@ -201,6 +202,7 @@ $total = (float)$sched['price'] * count($seat_ids);
                        aria-label="Card CVV (hidden)">
               </div>
             </div>
+
             <a class="btn btn-outline-light mt-3 me-2" href="/draft2/book.php?schedule_id=<?= (int)$schedule_id ?>">Cancel</a>
             <button class="btn btn-danger mt-3" type="submit">Pay <?=price_format($total)?></button>
           </form>
@@ -224,5 +226,23 @@ $total = (float)$sched['price'] * count($seat_ids);
     </div>
   </div>
 </div>
+
 <script src="/draft2/assets/js/payment.js"></script>
+<script>
+// Simple dropdown-based section toggle
+(function(){
+  const sel   = document.getElementById('method-select');
+  const gcash = document.getElementById('pay-gcash');
+  const maya  = document.getElementById('pay-maya');
+  const card  = document.getElementById('pay-card');
+  function update() {
+    const v = sel.value;
+    gcash.style.display = v === 'GCASH' ? 'block' : 'none';
+    maya.style.display  = v === 'MAYA'  ? 'block' : 'none';
+    card.style.display  = v === 'CARD'  ? 'flex' : 'none';
+  }
+  sel.addEventListener('change', update);
+  update();
+})();
+</script>
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

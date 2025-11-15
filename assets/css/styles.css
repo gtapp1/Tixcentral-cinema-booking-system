@@ -68,12 +68,6 @@ a { text-decoration: none; }
 
 .screen { width: 100%; text-align: center; color: #888; border-bottom: 4px solid #666; margin-bottom: .5rem; }
 
-/* Light theme toggle */
-.light .tc-body, .light body { background: #f9f9f9; color: #111; }
-.light .navbar, .light footer { background: #fff !important; color: #000; }
-.light .movie-card { background: #fff; border-color: #e6e6e6; }
-.light .seat { background: #eaeaea; border-color: #d0d0d0; color: #333; }
-
 .poster-fit {
   width: 100%;
   aspect-ratio: 2 / 3;
@@ -119,11 +113,12 @@ html, body, .tc-body,
   display: none;
   padding: 1rem;
   z-index: 5;
+  font-size: 20px;
 }
 .synopsis-overlay.active { display: block; opacity: 1; }
 .synopsis-content {
   height: 100%;
-  overflow-y: auto;
+  padding-top: 300px;
 }
 .synopsis-content h6 { font-size: 1.15rem; }
 .synopsis-toggle.btn {
