@@ -5,7 +5,29 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
 
+---
+
 A self-contained cinema booking site built with pure PHP, MySQL, Bootstrap, and vanilla JS. Dark, Netflix-inspired interface with Bebas Neue headings and smooth interactions.
+
+<img width="1920" height="1521" alt="image" src="https://github.com/user-attachments/assets/6ab08238-c512-41c2-a319-2a91b18b0d8d" />
+
+---
+
+<img width="1920" height="2016" alt="image" src="https://github.com/user-attachments/assets/f7bd3486-bf16-4efd-9c3d-ae4975576012" />
+
+---
+
+<img width="1920" height="951" alt="image" src="https://github.com/user-attachments/assets/b063f641-9b07-41bb-adbc-dfee9917ab4e" />
+
+---
+
+<img width="1920" height="951" alt="image" src="https://github.com/user-attachments/assets/5b2fabae-5b4e-4721-98ac-3861db00a13f" />
+
+---
+
+<img width="1920" height="951" alt="image" src="https://github.com/user-attachments/assets/64d22ae5-4a33-40f8-bb4c-a89a02483e3b" />
+
+---
 
 Key features
 - Homepage
